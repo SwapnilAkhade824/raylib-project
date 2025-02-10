@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include <string.h>
 #include <stdlib.h>
-// #include <ctype.h>
+#include <ctype.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include<raygui.h>
@@ -49,7 +49,14 @@ int main(int argc, char const *argv[]) {
         // data of user
         struct Account userdata;
 
-        bool editMode = false;
+        // input fields
+        char input_username[11] = "";
+        char input_password[11] = "";
+        bool isPasswordHidden = true;
+        bool accno_placeholderActive = true;
+        bool password_placeholderActive = true;
+        bool usernameActive = false;
+        bool passwordActive = false;
 
         // input values
         char inputaccno[13]="";
@@ -69,22 +76,27 @@ int main(int argc, char const *argv[]) {
         // text or input box
 
         Rectangle accno = { (SCREEN_WIDTH - 600)/2, SCREEN_HEIGHT/8*5, 600, 60 };
-        DrawRectangleRounded(accno, 0.3, 10, LIGHTGRAY);
+        DrawRectangleRounded(accno, 0.3, 10, WHITE);
 
         char *accno_placeholder = "Enter the Account no or Username";
         Vector2 accno_textsize = MeasureTextEx(customFont, accno_placeholder, 25, 2);
         Vector2 accno_position = {(SCREEN_WIDTH - accno_textsize.x)/2,accno.y + (accno.height - accno_textsize.y)/2};
 
-        DrawTextEx(customFont, accno_placeholder, accno_position, 25, 2, BLACK);
+        DrawTextEx(customFont, accno_placeholder, accno_position, 25, 2, accno_placeholderActive ? BLACK : WHITE);
 
-        Rectangle password = { (SCREEN_WIDTH - 600)/2, SCREEN_HEIGHT/8*5 + 120, 600, 60 };
-        DrawRectangleRounded(password, 0.3, 10, LIGHTGRAY);
+        Rectangle password = { (SCREEN_WIDTH - 600)/2, SCREEN_HEIGHT/8*5 + 70, 600, 60 };
+        DrawRectangleRounded(password, 0.3, 10, WHITE);
 
         char *password_placeholder = "Enter your Password";
         Vector2 password_textsize = MeasureTextEx(customFont, password_placeholder, 25, 2);
         Vector2 password_position = {(SCREEN_WIDTH - password_textsize.x)/2,password.y + (password.height - password_textsize.y)/2};
 
-        DrawTextEx(customFont, password_placeholder, password_position, 25, 2, BLACK);
+        DrawTextEx(customFont, password_placeholder, password_position, 25, 2, password_placeholderActive ? BLACK : WHITE);
+
+        Vector2 center = { password.x + 570, password.y + 30 };
+        DrawCircleV(center, 20, isPasswordHidden ? GREEN : RED);
+
+
 
         EndDrawing();
     }
