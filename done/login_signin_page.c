@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -13,31 +14,32 @@
 #define SCREEN_WIDTH  1200
 #define SCREEN_HEIGHT 800
 
-
 struct Account {
     long long accno;
     char username[10];
     char password[10];
 };
 
+int loginpage()
+{
 
-int main(int argc, char const *argv[]) {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
-    SetTargetFPS(60);
+	// InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
+    // SetTargetFPS(60);
 
-    Texture2D Logo = LoadTexture("image/logo.png");
+    // Texture2D Logo = LoadTexture("image/logo.png");
 
-    Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
-    GenTextureMipmaps(&customFont.texture);
-    SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
+    // Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
+    // GenTextureMipmaps(&customFont.texture);
+    // SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
 
-    if (customFont.texture.id == 0) {
-        printf("Failed to load font!\n");
-        CloseWindow();
-        return -1;
-    }
+    // if (customFont.texture.id == 0) {
+    //     printf("Failed to load font!\n");
+    //     CloseWindow();
+    //     return -1;
+    // }
 
-    // data of user
+
+	// data of user
     struct Account userdata;
 
     // input fields
@@ -177,7 +179,5 @@ int main(int argc, char const *argv[]) {
     UnloadFont(customFont);
 
     CloseWindow();
-    return 0;
+	return 0;
 }
-
-
