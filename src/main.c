@@ -16,8 +16,8 @@
 
 struct Account {
     long long accno;
-    char username[10];
-    char password[10];
+    char username[50];
+    char password[50];
 };
 
 
@@ -41,9 +41,9 @@ int main(int argc, char const *argv[]) {
     struct Account userdata;
 
     // input fields
-    char input_username[13] = "";
-    char input_password[11] = "";
-    char hidden_password[11] = "";
+    char input_username[50] = "";
+    char input_password[50] = "";
+    char hidden_password[50] = "";
     bool isPasswordHidden = true;
     bool accno_placeholderActive = true;
     bool password_placeholderActive = true;
@@ -87,6 +87,9 @@ int main(int argc, char const *argv[]) {
         if (CheckCollisionPointRec(mouse, accno) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             usernameActive = true;
             passwordActive = false;
+        }
+
+        if (strlen(input_username) != 0 ) {
             accno_placeholderActive = false;
         }
 
@@ -122,6 +125,9 @@ int main(int argc, char const *argv[]) {
         if (CheckCollisionPointRec(mouse, password) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             passwordActive = true;
             usernameActive = false;
+        }
+
+        if (strlen(input_password) != 0 ) {
             password_placeholderActive = false;
         }
 
@@ -145,7 +151,7 @@ int main(int argc, char const *argv[]) {
         int key = GetCharPressed();
 
         if (usernameActive) {
-            if (key >= 32 && key <= 126 && strlen(input_username) < 12) {
+            if (key >= 32 && key <= 126 && strlen(input_username) < 50) {
                 input_username[strlen(input_username)] = (char)key;
                 input_username[strlen(input_username) + 1] = '\0';
             }
@@ -154,7 +160,7 @@ int main(int argc, char const *argv[]) {
                 input_username[strlen(input_username) - 1] = '\0';
             }
         } else if (passwordActive) {
-            if (key >= 32 && key <= 126 && strlen(input_password) < 10) {
+            if (key >= 32 && key <= 126 && strlen(input_password) < 50) {
                 input_password[strlen(input_password)] = (char)key;
                 input_password[strlen(input_password) + 1] = '\0';
             }
@@ -170,6 +176,32 @@ int main(int argc, char const *argv[]) {
             hidden_password[strlen(input_password)] = '\0';
         }
 
+        // login and signup buttons
+
+        Rectangle loginbutton = {SCREEN_WIDTH/2 - 150 -(password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
+        DrawRectangleRounded(loginbutton, 0.3, 10, LIGHTGRAY);
+
+        const char* logintext = "Login";
+        Vector2 login_textsize = MeasureTextEx(customFont, logintext, 20, 1);
+        Vector2 logintext_position = {loginbutton.x + (loginbutton.width - login_textsize.x)/2,loginbutton.y + (loginbutton.height - login_textsize.y)/2};
+
+        DrawTextEx(customFont, logintext, logintext_position, 20, 1, BLACK );
+
+        Rectangle signinbutton = {SCREEN_WIDTH/2 + (password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
+        DrawRectangleRounded(signinbutton, 0.3, 10, LIGHTGRAY);
+
+        const char* signintext = "SignUp";
+        Vector2 signin_textsize = MeasureTextEx(customFont, logintext, 20, 1);
+        Vector2 signintext_position = {signinbutton.x + (signinbutton.width - signin_textsize.x)/2,signinbutton.y + (signinbutton.height - signin_textsize.y)/2};
+
+        DrawTextEx(customFont, signintext, signintext_position, 20, 1, BLACK );
+
+        // line between buttons
+        Vector2 startline = {SCREEN_WIDTH/2, password.y + password.height + 20};
+        Vector2 endline = {SCREEN_WIDTH/2, password.y + password.height*2 + 20};
+        DrawLineEx(startline, endline, 2, GRAY);
+
+        
         EndDrawing();
     }
 
