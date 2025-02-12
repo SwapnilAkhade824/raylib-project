@@ -14,14 +14,14 @@
 #define SCREEN_HEIGHT 800
 
 
-struct Account {
+struct LoginCSV {
     long long accno;
     char username[50];
     char password[50];
 };
 
 
-int main(int argc, char const *argv[]) {
+int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
     SetTargetFPS(60);
 
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]) {
     }
 
     // data of user
-    struct Account userdata;
+    struct LoginCSV userdata;
 
     // input fields
     char input_username[50] = "";
