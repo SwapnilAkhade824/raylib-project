@@ -16,7 +16,7 @@ all:
 
 # Run The Compiled File
 run: all
-	./"$(OUT)"
+	./$(OUT)
 
 # Clear the compiled File
 clean:
