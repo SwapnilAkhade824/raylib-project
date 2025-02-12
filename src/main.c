@@ -1,4 +1,3 @@
-#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -14,43 +13,46 @@
 #define SCREEN_WIDTH  1200
 #define SCREEN_HEIGHT 800
 
-struct Account {
+
+struct LoginCSV {
     long long accno;
-    char username[10];
-    char password[10];
+    char username[50];
+    char password[50];
 };
 
-int loginpage()
-{
 
-	// InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
-    // SetTargetFPS(60);
+int main() {
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
+    SetTargetFPS(60);
 
-    // Texture2D Logo = LoadTexture("image/logo.png");
+    Texture2D Logo = LoadTexture("image/logo.png");
 
-    // Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
-    // GenTextureMipmaps(&customFont.texture);
-    // SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
+    // surabhi check
+    
+    Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
+    GenTextureMipmaps(&customFont.texture);
+    SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
 
-    // if (customFont.texture.id == 0) {
-    //     printf("Failed to load font!\n");
-    //     CloseWindow();
-    //     return -1;
-    // }
+    if (customFont.texture.id == 0) {
+        printf("Failed to load font!\n");
+        CloseWindow();
+        return -1;
+    }
 
-
-	// data of user
-    struct Account userdata;
+    // data of user
+    struct LoginCSV userdata;
 
     // input fields
-    char input_username[13] = "";
-    char input_password[11] = "";
-    char hidden_password[11] = "";
+    char input_username[50] = "";
+    char input_password[50] = "";
+    char hidden_password[50] = "";
     bool isPasswordHidden = true;
     bool accno_placeholderActive = true;
     bool password_placeholderActive = true;
     bool usernameActive = false;
     bool passwordActive = false;
+    bool loginbuttonActive = false;
+    bool signupbuttonActive = false;
 
     while (!WindowShouldClose()) {
 
@@ -89,6 +91,9 @@ int loginpage()
         if (CheckCollisionPointRec(mouse, accno) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             usernameActive = true;
             passwordActive = false;
+        }
+
+        if (strlen(input_username) != 0 ) {
             accno_placeholderActive = false;
         }
 
@@ -124,6 +129,9 @@ int loginpage()
         if (CheckCollisionPointRec(mouse, password) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             passwordActive = true;
             usernameActive = false;
+        }
+
+        if (strlen(input_password) != 0 ) {
             password_placeholderActive = false;
         }
 
@@ -147,7 +155,7 @@ int loginpage()
         int key = GetCharPressed();
 
         if (usernameActive) {
-            if (key >= 32 && key <= 126 && strlen(input_username) < 12) {
+            if (key >= 32 && key <= 126 && strlen(input_username) < 50) {
                 input_username[strlen(input_username)] = (char)key;
                 input_username[strlen(input_username) + 1] = '\0';
             }
@@ -156,7 +164,7 @@ int loginpage()
                 input_username[strlen(input_username) - 1] = '\0';
             }
         } else if (passwordActive) {
-            if (key >= 32 && key <= 126 && strlen(input_password) < 10) {
+            if (key >= 32 && key <= 126 && strlen(input_password) < 50) {
                 input_password[strlen(input_password)] = (char)key;
                 input_password[strlen(input_password) + 1] = '\0';
             }
@@ -172,6 +180,56 @@ int loginpage()
             hidden_password[strlen(input_password)] = '\0';
         }
 
+        // login and signup buttons
+
+        Rectangle loginbutton = {SCREEN_WIDTH/2 - 150 -(password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
+        DrawRectangleRounded(loginbutton, 0.3, 10, loginbuttonActive ? GRAY : LIGHTGRAY);
+
+        const char* logintext = "Login";
+        Vector2 login_textsize = MeasureTextEx(customFont, logintext, 20, 1);
+        Vector2 logintext_position = {loginbutton.x + (loginbutton.width - login_textsize.x)/2,loginbutton.y + (loginbutton.height - login_textsize.y)/2};
+
+        DrawTextEx(customFont, logintext, logintext_position, 20, 1, BLACK );
+
+        Rectangle signupbutton = {SCREEN_WIDTH/2 + (password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
+        DrawRectangleRounded(signupbutton, 0.3, 10, signupbuttonActive ? GRAY : LIGHTGRAY);
+
+        const char* signuptext = "SignUp";
+        Vector2 signup_textsize = MeasureTextEx(customFont, logintext, 20, 1);
+        Vector2 signuptext_position = {signupbutton.x + (signupbutton.width - signup_textsize.x)/2,signupbutton.y + (signupbutton.height - signup_textsize.y)/2};
+
+        DrawTextEx(customFont, signuptext, signuptext_position, 20, 1, BLACK );
+
+        if (CheckCollisionPointRec(mouse, loginbutton)){
+            loginbuttonActive = true;
+        }else{
+            loginbuttonActive = false;
+        }
+
+        if (CheckCollisionPointRec(mouse, signupbutton)){
+            signupbuttonActive = true;
+        }else{
+            signupbuttonActive = false;
+        }
+
+        // line between buttons
+        Vector2 startline = {SCREEN_WIDTH/2, password.y + password.height + 20};
+        Vector2 endline = {SCREEN_WIDTH/2, password.y + password.height*2 + 20};
+        DrawLineEx(startline, endline, 2, GRAY);
+
+        // status showing
+
+        char *statusmessage = "";
+
+        if (CheckCollisionPointRec(mouse,loginbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            // check for username correction and password correction
+            // and add the username add password to the structure for accessing it again again for all the pages
+            // if found correct redirect to the homepage
+        }
+        else if (CheckCollisionPointRec(mouse,signupbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            // redirect the user to the signup page
+        }
+
         EndDrawing();
     }
 
@@ -179,5 +237,7 @@ int loginpage()
     UnloadFont(customFont);
 
     CloseWindow();
-	return 0;
+    return 0;
 }
+
+

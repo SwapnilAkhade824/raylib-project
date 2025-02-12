@@ -51,6 +51,8 @@ int main() {
     bool password_placeholderActive = true;
     bool usernameActive = false;
     bool passwordActive = false;
+    bool loginbuttonActive = false;
+    bool signupbuttonActive = false;
 
     while (!WindowShouldClose()) {
 
@@ -181,7 +183,7 @@ int main() {
         // login and signup buttons
 
         Rectangle loginbutton = {SCREEN_WIDTH/2 - 150 -(password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
-        DrawRectangleRounded(loginbutton, 0.3, 10, LIGHTGRAY);
+        DrawRectangleRounded(loginbutton, 0.3, 10, loginbuttonActive ? GRAY : LIGHTGRAY);
 
         const char* logintext = "Login";
         Vector2 login_textsize = MeasureTextEx(customFont, logintext, 20, 1);
@@ -190,13 +192,25 @@ int main() {
         DrawTextEx(customFont, logintext, logintext_position, 20, 1, BLACK );
 
         Rectangle signupbutton = {SCREEN_WIDTH/2 + (password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
-        DrawRectangleRounded(signupbutton, 0.3, 10, LIGHTGRAY);
+        DrawRectangleRounded(signupbutton, 0.3, 10, signupbuttonActive ? GRAY : LIGHTGRAY);
 
         const char* signuptext = "SignUp";
         Vector2 signup_textsize = MeasureTextEx(customFont, logintext, 20, 1);
         Vector2 signuptext_position = {signupbutton.x + (signupbutton.width - signup_textsize.x)/2,signupbutton.y + (signupbutton.height - signup_textsize.y)/2};
 
         DrawTextEx(customFont, signuptext, signuptext_position, 20, 1, BLACK );
+
+        if (CheckCollisionPointRec(mouse, loginbutton)){
+            loginbuttonActive = true;
+        }else{
+            loginbuttonActive = false;
+        }
+
+        if (CheckCollisionPointRec(mouse, signupbutton)){
+            signupbuttonActive = true;
+        }else{
+            signupbuttonActive = false;
+        }
 
         // line between buttons
         Vector2 startline = {SCREEN_WIDTH/2, password.y + password.height + 20};
