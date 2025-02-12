@@ -34,6 +34,9 @@ int main(){
 
     Texture2D Logo = LoadTexture("image/logo.png");
 
+    Logo.width /= 1.5;
+    Logo.height /= 1.5;
+
     Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
     GenTextureMipmaps(&customFont.texture);
     SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
@@ -60,6 +63,18 @@ int main(){
         ClearBackground(peach);
 
         Vector2 mouse = GetMousePosition();
+
+        const char* intro = "Home Page";
+        Vector2 intro_textsize = MeasureTextEx(customFont, intro, 50, 2);
+        Vector2 intro_position = {(SCREEN_WIDTH - intro_textsize.x)/2,(225 - intro_textsize.y)/2};
+
+        // text of intro
+
+        DrawTextEx(customFont, intro, intro_position, 50, 2, BLACK);
+
+        // logo of the app
+
+        DrawTexture(Logo, 10, 0, WHITE);
 
 
 
