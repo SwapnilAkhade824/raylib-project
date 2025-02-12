@@ -27,6 +27,8 @@ int main() {
 
     Texture2D Logo = LoadTexture("image/logo.png");
 
+    // surabhi check
+    
     Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
     GenTextureMipmaps(&customFont.texture);
     SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
