@@ -187,21 +187,33 @@ int main(int argc, char const *argv[]) {
 
         DrawTextEx(customFont, logintext, logintext_position, 20, 1, BLACK );
 
-        Rectangle signinbutton = {SCREEN_WIDTH/2 + (password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
-        DrawRectangleRounded(signinbutton, 0.3, 10, LIGHTGRAY);
+        Rectangle signupbutton = {SCREEN_WIDTH/2 + (password.width/2-150)/2, password.y + password.height + 25, 150, password.height - 10};
+        DrawRectangleRounded(signupbutton, 0.3, 10, LIGHTGRAY);
 
-        const char* signintext = "SignUp";
-        Vector2 signin_textsize = MeasureTextEx(customFont, logintext, 20, 1);
-        Vector2 signintext_position = {signinbutton.x + (signinbutton.width - signin_textsize.x)/2,signinbutton.y + (signinbutton.height - signin_textsize.y)/2};
+        const char* signuptext = "SignUp";
+        Vector2 signup_textsize = MeasureTextEx(customFont, logintext, 20, 1);
+        Vector2 signuptext_position = {signupbutton.x + (signupbutton.width - signup_textsize.x)/2,signupbutton.y + (signupbutton.height - signup_textsize.y)/2};
 
-        DrawTextEx(customFont, signintext, signintext_position, 20, 1, BLACK );
+        DrawTextEx(customFont, signuptext, signuptext_position, 20, 1, BLACK );
 
         // line between buttons
         Vector2 startline = {SCREEN_WIDTH/2, password.y + password.height + 20};
         Vector2 endline = {SCREEN_WIDTH/2, password.y + password.height*2 + 20};
         DrawLineEx(startline, endline, 2, GRAY);
 
-        
+        // status showing
+
+        char *statusmessage = "";
+
+        if (CheckCollisionPointRec(mouse,loginbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            // check for username correction and password correction
+            // and add the username add password to the structure for accessing it again again for all the pages
+            // if found correct redirect to the homepage
+        }
+        else if (CheckCollisionPointRec(mouse,signupbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            // redirect the user to the signup page
+        }
+
         EndDrawing();
     }
 
