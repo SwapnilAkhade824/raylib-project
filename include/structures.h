@@ -7,12 +7,17 @@ struct LoginCSV {
     char password[10];
 };
 
-struct AccountCSV {
+struct DOB {
+    int day,month,year;
+};
+
+struct SignUpCSV {
 	long long accno;
-	char name[100];
-	long long AadhaarNo;
-	// DOB
-	long long Mobile;
+    long long aadhaarno;
+    char name[100];
+    struct DOB dateofbirth;
+    long long mobileno;
+    char password[50];
 };
 
 struct BalanceCSV {

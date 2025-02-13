@@ -13,6 +13,7 @@ OUT = exe/$(shell powershell -Command "[System.IO.Path]::GetFileNameWithoutExten
 # Compile the File
 all:
 	$(CC) "$(SRC)" -o "$(OUT)" $(CFLAGS)
+# 	$(CC) "./src/*.c" -o "$(OUT)" $(CFLAGS)
 
 # Run The Compiled File
 run: all

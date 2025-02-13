@@ -14,18 +14,18 @@
 #define SCREEN_WIDTH  1200
 #define SCREEN_HEIGHT 800
 
-struct DOB {
-    int day,month,year;
-};
+// struct DOB {
+//     int day,month,year;
+// };
 
-struct SignUpCSV {
-    long long accno;
-    long long aadhaarno;
-    char name[100];
-    struct DOB dateofbirth;
-    long long mobileno;
-    char password[50];
-};
+// struct SignUpCSV {
+//     long long accno;
+//     long long aadhaarno;
+//     char name[100];
+//     struct DOB dateofbirth;
+//     long long mobileno;
+//     char password[50];
+// };
 
 int main(){
     
@@ -48,7 +48,7 @@ int main(){
     }
 
     // data of user 
-    struct SignUpCSV userinfo;
+    // struct SignUpCSV userinfo;
 
     // input fields
     long long accno;

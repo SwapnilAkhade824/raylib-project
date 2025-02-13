@@ -1,3 +1,4 @@
+// #pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -5,9 +6,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <Admin.h>
+#include <signup2.h>
 
-#define RAYGUI_IMPLEMENTATION
-#include<raygui.h>
+
+// #define RAYGUI_IMPLEMENTATION
+// #include<raygui.h>
 
 // Constants
 #define SCREEN_WIDTH  1200
@@ -22,11 +26,11 @@ struct LoginCSV {
 
 
 int main() {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Crest Banking");
     SetTargetFPS(60);
 
     Texture2D Logo = LoadTexture("image/logo.png");
-    
+
     Font customFont = LoadFontEx("resources/Roboto-Regular.ttf", 64, 0, 0);
     GenTextureMipmaps(&customFont.texture);
     SetTextureFilter(customFont.texture, TEXTURE_FILTER_BILINEAR);
@@ -41,9 +45,10 @@ int main() {
     struct LoginCSV userdata;
 
     // input fields
-    char input_username[50] = "";
+    char input_username[12] = "";
     char input_password[50] = "";
     char hidden_password[50] = "";
+    char *statusmessage ;
     bool isPasswordHidden = true;
     bool accno_placeholderActive = true;
     bool password_placeholderActive = true;
@@ -51,6 +56,8 @@ int main() {
     bool passwordActive = false;
     bool loginbuttonActive = false;
     bool signupbuttonActive = false;
+    bool statusmessageActive = false;
+    bool status = false;
 
     while (!WindowShouldClose()) {
 
@@ -80,7 +87,7 @@ int main() {
 
         DrawRectangleRoundedLinesEx(accno, 0.3, 10, 0.2, usernameActive ? BLACK : LIGHTGRAY);
 
-        const char *accno_placeholder = "Enter the Account no or Username";
+        const char *accno_placeholder = "Enter the Account no";
         Vector2 accno_textsize = MeasureTextEx(customFont, accno_placeholder, 25, 2);
         Vector2 accno_position = {(SCREEN_WIDTH - accno_textsize.x)/2,accno.y + (accno.height - accno_textsize.y)/2};
 
@@ -217,15 +224,29 @@ int main() {
 
         // status showing
 
-        char *statusmessage = "";
+        Vector2 statusmessage_textsize = MeasureTextEx(customFont, statusmessage, 25, 1);
+        Vector2 statusmessage_position = {(SCREEN_WIDTH - statusmessage_textsize.x)/2,intro_position.y + Logo.height - 20};
+
+        if (status){
+            DrawTextEx(customFont, statusmessage, statusmessage_position, 25, 1, statusmessageActive ? GREEN : RED );
+        }
 
         if (CheckCollisionPointRec(mouse,loginbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
-            // check for username correction and password correction
-            // and add the username add password to the structure for accessing it again again for all the pages
-            // if found correct redirect to the homepage
+
+            long long accno = atoll(input_username);
+            int a = verifyaccount(accno,input_password);
+            if(a == 1){
+                statusmessage = "Login Successfull"; 
+            }else{
+                statusmessage = "Invalid Credentials";
+            }
+            status = !status;
         }
-        else if (CheckCollisionPointRec(mouse,signupbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+
+        if (CheckCollisionPointRec(mouse,signupbutton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             // redirect the user to the signup page
+            signupgui();
+            break;
         }
 
         EndDrawing();

@@ -34,7 +34,7 @@ typedef struct{
 
 int main()
 {
-	    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
+	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Creast Banking");
     SetTargetFPS(60);
 
     Texture2D Logo = LoadTexture("image/logo.png");
